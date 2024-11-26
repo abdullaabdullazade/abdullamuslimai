@@ -1,0 +1,98 @@
+package com.example.jetpacktutorial
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.example.jetpacktutorial.ui.theme.JetpackTutorialTheme
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            JetpackTutorialTheme {
+                MainScreen()
+            }
+        }
+    }
+}
+
+@Composable
+fun MainScreen() {
+    Scaffold { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            // Greetings section
+            Greeting(names = listOf("Abdulla", "Sevil"))
+            Spacer(modifier = Modifier.height(20.dp))
+            Greeting2(name = "Abdulla")
+
+            // Counter section
+            Spacer(modifier = Modifier.height(40.dp))
+            CounterSection()
+        }
+    }
+}
+
+@Composable
+fun Greeting(names: List<String>, modifier: Modifier = Modifier) {
+    Column(modifier = modifier) {
+        names.forEach { name ->
+            Text(text = "Hello $name!", style = MaterialTheme.typography.bodyLarge)
+        }
+    }
+}
+
+@Composable
+fun Greeting2(name: String, modifier: Modifier = Modifier) {
+    Text(
+        text = "Hello2 $name!",
+        modifier = modifier,
+        style = MaterialTheme.typography.bodyLarge
+    )
+}
+
+@Composable
+fun CounterSection() {
+    var count by remember { mutableStateOf(0) }
+
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = "Count: $count",
+            style = MaterialTheme.typography.bodyLarge
+        )
+        Spacer(modifier = Modifier.height(20.dp))
+        CustomButton(text = "Increase Count") {
+            count++
+        }
+    }
+}
+
+@Composable
+fun CustomButton(text: String, onClick: () -> Unit) {
+    Button(onClick = onClick) {
+        Text(text = text)
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun MainScreenPreview() {
+    JetpackTutorialTheme {
+        MainScreen()
+    }
+}
